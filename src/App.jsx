@@ -10,12 +10,14 @@ const inputRef = useRef()
 
   //create asynchronous fucntion
 
+
   const search = async (city)=> {
+
+    try {
       let initialData = await fetch(`https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${import.meta.env.VITE_APP_ID}`);
       let data = await initialData.json()
-//we're putting the data from "weatherdata" object array only...really important point to note down
 
-setWeatherdata({
+      setWeatherdata({
         humidity: data.main.humidity,
         windspeed: data.wind.speed, 
         temperature: Math.floor(data.main.temp - 273),
@@ -23,7 +25,14 @@ setWeatherdata({
         country: data.sys.country,
         actualTemp: Math.floor(data.main.feels_like - 273),
       })
-    }   
+    } catch (error) {
+      alert("Enter a valid city name")
+    }
+
+  }
+//we're putting the data from "weatherdata" object array only...really important point to note down
+
+
 
   useEffect(() => {
       search('')
